@@ -38,15 +38,15 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-	TArray<ABoid*> boids;
+	TArray<ABoid*> *boids;
 
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	virtual FVector Rule1(ABoid* bj);
-	virtual FVector Rule2(ABoid* bj);
-	virtual FVector Rule3(ABoid* bj);
-	virtual FVector Border(ABoid* bj);
-	virtual void LimitSpeed(ABoid* b);
+	//virtual FVector Rule1(ABoid* bj);
+	//virtual FVector Rule2(ABoid* bj);
+	//virtual FVector Rule3(ABoid* bj);
+	//virtual FVector Border(ABoid* bj);
+	//virtual void LimitSpeed(ABoid* b);
 };

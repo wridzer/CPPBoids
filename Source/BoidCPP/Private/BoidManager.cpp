@@ -8,7 +8,7 @@ ABoidManager::ABoidManager()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
+	boids = new TArray<ABoid*>();
 }
 
 // Called when the game starts or when spawned
@@ -23,7 +23,17 @@ void ABoidManager::BeginPlay()
 		FRotator myRot(0, 0, 0);
 		ABoid* boid = GetWorld()->SpawnActor<ABoid>(spawnPos, myRot, SpawnInfo);
 		boid->position = spawnPos;
-		boids.Add(boid);
+		boids->Add(boid);
+
+		boid->boids = boids;
+		boid->frame = frame;
+		boid->rule1	= rule1;
+		boid->rule2	= rule2;
+		boid->rule3	= rule3;
+		boid->distance = distance;
+		boid->maxSpeed = maxSpeed;
+		boid->ruleBorder = ruleBorder;
+		boid->bounceBorder = bounceBorder;
 	}
 }
 
@@ -32,9 +42,9 @@ void ABoidManager::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	FVector v1, v2, v3, v4;
+	/*FVector v1, v2, v3, v4;
 
-	for (auto b : boids)
+	for (auto b : *boids)
 	{
 		v1 = Rule1(b);
 		v2 = Rule2(b);
@@ -44,11 +54,11 @@ void ABoidManager::Tick(float DeltaTime)
 		b->velocity = b->velocity + v1 + v2 + v3 + v4;
 		LimitSpeed(b);
 		b->position = b->position + b->velocity;
-	}
+	}*/
 
 }
 
-void ABoidManager::LimitSpeed(ABoid* bj)
+/*void ABoidManager::LimitSpeed(ABoid* bj)
 {
 	if (bj->velocity.Length() > maxSpeed)
 	{
@@ -60,7 +70,7 @@ FVector ABoidManager::Rule1(ABoid* bj)
 {
 	FVector pcj = FVector(0, 0, 0);
 
-	for (auto b : boids)
+	for (auto b : *boids)
 	{
 		if (b != bj)
 		{
@@ -68,7 +78,7 @@ FVector ABoidManager::Rule1(ABoid* bj)
 		}
 	}
 
-	pcj = pcj / (boids.Num() - 1);
+	pcj = pcj / (boids->Num() - 1);
 
 	return (pcj - bj->position) / rule1;
 }
@@ -77,7 +87,7 @@ FVector ABoidManager::Rule2(ABoid* bj)
 {
 	FVector c = FVector(0, 0, 0);
 
-	for (auto b : boids)
+	for (auto b : *boids)
 	{
 		if (b != bj)
 		{
@@ -95,7 +105,7 @@ FVector ABoidManager::Rule3(ABoid* bj)
 {
 	FVector pvj = FVector(0, 0, 0);
 
-	for (auto b : boids)
+	for (auto b : *boids)
 	{
 		if (b != bj)
 		{
@@ -103,7 +113,7 @@ FVector ABoidManager::Rule3(ABoid* bj)
 		}
 	}
 
-	pvj = pvj / (boids.Num() - 1);
+	pvj = pvj / (boids->Num() - 1);
 
 	return (pvj - bj->velocity) / rule3;
 }
@@ -140,5 +150,5 @@ FVector ABoidManager::Border(ABoid* bj)
 	}
 
 	return v / ruleBorder;
-}
+}*/
 
